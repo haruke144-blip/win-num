@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>โปรแกรมวินเลข</title>
+
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+
+body{
+
+margin:0;
+
+font-family:"Segoe UI",Tahoma,Arial,sans-serif;
+
+background:
+linear-gradient(135deg,#eef7ff,#f5fff5);
+
+min-height:100vh;
+
+}
+
+
+
+
+.container{
+
+width:95%;
+
+max-width:750px;
+
+margin:30px auto;
+
+}
+
+
+
+
+
+.header{
+
+text-align:center;
+
+font-size:32px;
+
+font-weight:bold;
+
+color:#2d3748;
+
+margin-bottom:20px;
+
+}
+
+
+
+
+
+.card-input{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+box-shadow:
+0 10px 25px rgba(0,0,0,.08);
+
+}
+
+
+
+
+
+textarea{
+
+
+width:100%;
+
+height:90px;
+
+resize:none;
+
+border-radius:15px;
+
+border:2px solid #cbd5e0;
+
+font-size:35px;
+
+text-align:center;
+
+padding:15px;
+
+outline:none;
+
+}
+
+
+
+
+textarea:focus{
+
+border-color:#48bb78;
+
+box-shadow:
+0 0 10px rgba(72,187,120,.25);
+
+}
+
+
+
+
+
+.btn-area{
+
+text-align:center;
+
+margin-top:15px;
+
+}
+
+
+
+
+
+button{
+
+border:none;
+
+cursor:pointer;
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+padding:12px 30px;
+
+border-radius:30px;
+
+margin:5px;
+
+transition:.2s;
+
+}
+
+
+
+
+button:hover{
+
+transform:translateY(-2px);
+
+}
+
+
+
+
+
+.reset{
+
+background:#fc8181;
+
+}
+
+
+
+.reset:hover{
+
+background:#e53e3e;
+
+}
+
+
+
+
+.calculate{
+
+background:#38a169;
+
+}
+
+
+
+.calculate:hover{
+
+background:#276749;
+
+}
+
+
+
+
+
+
+.grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+
+gap:18px;
+
+margin-top:20px;
+
+}
+
+
+
+
+
+
+.box{
+
+background:white;
+
+border-radius:20px;
+
+padding:18px;
+
+box-shadow:
+0 8px 20px rgba(0,0,0,.08);
+
+}
+
+
+
+
+
+.title{
+
+font-size:21px;
+
+font-weight:bold;
+
+color:#2d3748;
+
+margin-bottom:12px;
+
+}
+
+
+
+
+
+.copy-btn{
+
+width:100%;
+
+background:#4299e1;
+
+border-radius:12px;
+
+font-size:16px;
+
+padding:10px;
+
+margin:0 0 12px 0;
+
+}
+
+
+
+
+.copy-btn:hover{
+
+background:#2b6cb0;
+
+}
+
+
+
+
+
+.result{
+
+
+background:#f0fff4;
+
+border-radius:12px;
+
+padding:15px;
+
+color:#22543d;
+
+font-size:18px;
+
+line-height:32px;
+
+word-spacing:10px;
+
+min-height:50px;
+
+}
+
+
+
+
+
+.footer{
+
+text-align:center;
+
+margin-top:25px;
+
+color:#718096;
+
+font-size:14px;
+
+}
+
+
+
+
+
+@media(max-width:600px){
+
+
+.header{
+
+font-size:26px;
+
+}
+
+
+textarea{
+
+font-size:28px;
+
+}
+
+
+button{
+
+width:90%;
+
+}
+
+
+}
+
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+
+<div class="container">
+
+
+
+<div class="header">
+
+🎲 โปรแกรมวินเลข
+
+</div>
+
+
+
+
+<div class="card-input">
+
+
+<textarea id="number"></textarea>
+
+
+
+<div class="btn-area">
+
+
+<button class="reset" onclick="resetData()">
+
+เริ่มใหม่
+
+</button>
+
+
+
+<button class="calculate" onclick="calculate()">
+
+คำนวณ
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+<div id="output"></div>
+
+
+
+<div class="footer">
+
+
+
+</div>
+
+
+
+</div>
+<div class="footer">
+
+Win Number Tool
+
+</div>
+
+</div>
+
+<script>
+
+
+// =====================
+// เริ่มใหม่
+// =====================
+
+function resetData(){
+
+document.getElementById("number").value="";
+
+document.getElementById("output").innerHTML="";
+
+}
+
+
+
+
+
+// =====================
+// คัดลอกแบบไม่มี Popup
+// =====================
+
+function copyNumber(id,btn){
+
+
+let text =
+document.getElementById(id).innerText;
+
+
+
+navigator.clipboard.writeText(text).then(()=>{
+
+
+let old =
+btn.innerHTML;
+
+
+
+btn.innerHTML =
+"✅ คัดลอกแล้ว";
+
+
+
+btn.style.background =
+"#48bb78";
+
+
+
+setTimeout(()=>{
+
+
+btn.innerHTML =
+old;
+
+
+
+btn.style.background =
+"#4299e1";
+
+
+},1500);
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// =====================
+// 2 ตัวปกติ
+// ไม่กลับเลข
+// =====================
+
+function twoNumber(nums){
+
+
+let result=[];
+
+
+
+for(let i=0;i<nums.length;i++){
+
+
+for(let j=i+1;j<nums.length;j++){
+
+
+result.push(
+nums[i]+nums[j]
+);
+
+
+}
+
+}
+
+
+
+return [...new Set(result)];
+
+}
+
+
+
+
+
+
+
+// =====================
+// 2 ตัวรวมเบิ้ล
+// =====================
+
+function twoDouble(nums){
+
+
+let result =
+twoNumber(nums);
+
+
+
+nums.forEach(n=>{
+
+
+result.push(
+n+n
+);
+
+
+});
+
+
+
+return [...new Set(result)];
+
+}
+
+
+
+
+
+
+
+// =====================
+// 3 ตัวปกติ
+// =====================
+
+function threeNormal(nums){
+
+
+let result=[];
+
+
+
+for(let i=0;i<nums.length;i++){
+
+
+for(let j=i+1;j<nums.length;j++){
+
+
+for(let k=j+1;k<nums.length;k++){
+
+
+
+result.push(
+nums[i]+nums[j]+nums[k]
+);
+
+
+
+}
+
+}
+
+}
+
+
+
+return [...new Set(result)];
+
+}
+
+
+
+
+
+
+
+
+// =====================
+// 3 ตัวรวมตองรวมหาม
+// ตอง + หาม
+// =====================
+
+function threeAll(nums){
+
+
+let result=[];
+
+
+
+for(let i=0;i<nums.length;i++){
+
+
+for(let j=i;j<nums.length;j++){
+
+
+for(let k=j;k<nums.length;k++){
+
+
+
+let num =
+nums[i]+nums[j]+nums[k];
+
+
+
+result.push(num);
+
+
+
+}
+
+}
+
+}
+
+
+
+return [...new Set(result)];
+
+}
+
+
+
+
+
+
+
+// =====================
+// 3 ตัวรวมหาม
+// หาม + 3 ตัวปกติ
+// ไม่เอาตอง
+// =====================
+
+function threeAllHam(nums){
+
+
+let result=[];
+
+
+
+
+// 3 ตัวปกติ
+
+for(let i=0;i<nums.length;i++){
+
+
+for(let j=i+1;j<nums.length;j++){
+
+
+for(let k=j+1;k<nums.length;k++){
+
+
+result.push(
+
+nums[i]+nums[j]+nums[k]
+
+);
+
+
+}
+
+}
+
+}
+
+
+
+
+
+
+
+// เลขหาม
+
+for(let i=0;i<nums.length;i++){
+
+
+for(let j=0;j<nums.length;j++){
+
+
+
+if(i!=j){
+
+
+
+let num =
+
+nums[i]+nums[i]+nums[j];
+
+
+
+// กันตอง
+
+if(
+!(nums[i]==nums[j])
+){
+
+
+result.push(num);
+
+
+}
+
+
+
+}
+
+}
+
+}
+
+
+
+
+
+// ตัดซ้ำ
+
+return [...new Set(result)];
+
+}
+
+
+
+
+
+
+
+
+// =====================
+// คำนวณหลัก
+// =====================
+
+function calculate(){
+
+
+
+let input =
+document.getElementById("number").value;
+
+
+
+let clean =
+input.replace(/[^0-9]/g,"");
+
+
+
+
+// ตรวจจำนวน
+
+if(clean.length < 2){
+
+
+alert("กรุณาใส่เลขอย่างน้อย 2 ตัว");
+
+
+return;
+
+
+}
+
+
+
+
+
+
+// ตรวจเลขซ้ำ
+
+let check =
+new Set(clean);
+
+
+
+if(check.size != clean.length){
+
+
+alert("มีเลขซ้ำ กรุณาใส่เลขใหม่");
+
+
+return;
+
+
+}
+
+
+
+
+
+let nums =
+clean.split("");
+
+
+
+let two =
+twoNumber(nums);
+
+
+
+let double =
+twoDouble(nums);
+
+
+
+let three =
+threeNormal(nums);
+
+
+
+let all =
+threeAll(nums);
+
+
+
+let allHam =
+threeAllHam(nums);
+
+
+
+
+document.getElementById("output").innerHTML = `
+
+
+<div class="grid">
+
+
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+2 ตัวปกติ
+
+</div>
+
+
+
+<button class="copy-btn"
+
+onclick="copyNumber('two',this)">
+
+📋 คัดลอก
+
+</button>
+
+
+
+<div class="result" id="two">
+
+${two.join(" ")}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+2 ตัวรวมเบิ้ล
+
+</div>
+
+
+
+<button class="copy-btn"
+
+onclick="copyNumber('double',this)">
+
+📋 คัดลอก
+
+</button>
+
+
+
+<div class="result" id="double">
+
+${double.join(" ")}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+3 ตัวปกติ
+
+</div>
+
+
+
+<button class="copy-btn"
+
+onclick="copyNumber('three',this)">
+
+📋 คัดลอก
+
+</button>
+
+
+
+<div class="result" id="three">
+
+${three.join(" ")}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+3 ตัวรวมตองรวมหาม
+
+</div>
+
+
+
+<button class="copy-btn"
+
+onclick="copyNumber('all',this)">
+
+📋 คัดลอก
+
+</button>
+
+
+
+<div class="result" id="all">
+
+${all.join(" ")}
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="box">
+
+
+<div class="title">
+
+3 ตัวรวมหาม
+
+</div>
+
+
+
+<button class="copy-btn"
+
+onclick="copyNumber('allHam',this)">
+
+📋 คัดลอก
+
+</button>
+
+
+
+<div class="result" id="allHam">
+
+${allHam.join(" ")}
+
+</div>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
